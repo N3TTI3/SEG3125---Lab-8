@@ -6,12 +6,12 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-logo">
-        <Link to="/home"> <img src={logo} alt="ExploreTrip Logo" /> 
-        <span>ExploreTrip</span> </Link>
+        <Link to="/"> <img src={logo} alt="ExploreTrip Logo" /> </Link>
+        <span>ExploreTrip</span> 
       </div>
 
       <nav className="navbar-links">
-        <Link to="/home">Home</Link>
+        <Link to="/">Home</Link>
         <Link to="/flights">Flights</Link>
         <a href="#">Hotels</a>
         <a href="#">Destinations</a>
