@@ -1,8 +1,9 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Flights.css";
 
 const FLIGHTS = [
@@ -108,8 +109,157 @@ const FLIGHTS = [
   },
 ];
 
+// ── Auth Modal ────────────────────────────────────────────────────────────────
+function AuthModal({ flight, travellers, onClose, onSuccess }) {
+  const [mode, setMode] = useState("login"); // "login" | "signup"
+  const [fields, setFields] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setError("");
+    setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    // Basic validation
+    if (mode === "signup" && !fields.name.trim()) {
+      setError("Please enter your full name.");
+      return;
+    }
+    if (!fields.email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+    if (!fields.password || fields.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    // ── TODO: replace this stub with a real API call ──
+    // e.g. await fetch("/api/auth/login", { method: "POST", body: JSON.stringify(fields) })
+    await new Promise((r) => setTimeout(r, 900)); // simulate network
+    setLoading(false);
+
+    onSuccess({ email: fields.email, name: fields.name || fields.email.split("@")[0] });
+  };
+
+  return (
+    <div className="auth-overlay" onClick={onClose}>
+      <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Close */}
+        <button className="auth-close" onClick={onClose} aria-label="Close">✕</button>
+
+        {/* Header */}
+        <div className="auth-header">
+          <p className="auth-eyebrow">
+            {flight.flag} {flight.destination} · {flight.airline}
+          </p>
+          <h2 className="auth-title">
+            {mode === "login" ? "Sign in to continue" : "Create an account"}
+          </h2>
+          <p className="auth-sub">
+            {mode === "login"
+              ? "Log in to complete your booking."
+              : "Join to book this flight and manage your trips."}
+          </p>
+        </div>
+
+        {/* Flight recap */}
+        <div className="auth-flight-recap">
+          <div className="recap-route">
+            <span className="recap-time">{flight.departure}</span>
+            <span className="recap-arrow">→</span>
+            <span className="recap-time">{flight.arrival}</span>
+          </div>
+          <div className="recap-detail">{flight.duration} · {flight.stops}</div>
+          <div className="recap-price">
+            ${(flight.price * travellers).toLocaleString()}
+            {travellers > 1 && (
+              <span className="recap-price-note"> · {travellers} passengers</span>
+            )}
+          </div>
+        </div>
+
+        {/* Fields */}
+        <div className="auth-fields">
+          {mode === "signup" && (
+            <div className="auth-field-group">
+              <label>Full name</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Jane Smith"
+                value={fields.name}
+                onChange={handleChange}
+                autoComplete="name"
+              />
+            </div>
+          )}
+          <div className="auth-field-group">
+            <label>Email address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              value={fields.email}
+              onChange={handleChange}
+              autoComplete="email"
+            />
+          </div>
+          <div className="auth-field-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder={mode === "signup" ? "Create a password (min. 6 chars)" : "Enter your password"}
+              value={fields.password}
+              onChange={handleChange}
+              autoComplete={mode === "login" ? "current-password" : "new-password"}
+            />
+          </div>
+        </div>
+
+        {error && <p className="auth-error">{error}</p>}
+
+        <button
+          className={`auth-submit-btn ${loading ? "loading" : ""}`}
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading
+            ? "Please wait…"
+            : mode === "login"
+            ? "Sign in & Book"
+            : "Create account & Book"}
+        </button>
+
+        <p className="auth-switch">
+          {mode === "login" ? (
+            <>
+              Don't have an account?{" "}
+              <button onClick={() => { setMode("signup"); setError(""); }}>Sign up</button>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <button onClick={() => { setMode("login"); setError(""); }}>Sign in</button>
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ── Main page ─────────────────────────────────────────────────────────────────
 function Flights() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const query = location.state?.query || "your destination";
   const [activeQuery, setActiveQuery] = useState(query);
   const selectedPackage = location.state?.package || null;
@@ -126,17 +276,42 @@ function Flights() {
 
   const [selectedFlight, setSelectedFlight] = useState(null);
 
+  // Auth modal state
+  const [authFlight, setAuthFlight] = useState(null); // flight being booked
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
-  const filteredFlights = activeQuery && !showAll
-    ? FLIGHTS.filter(
-        (flight) =>
-          flight.destination.toLowerCase().includes(activeQuery.toLowerCase()) ||
-          flight.country.toLowerCase().includes(activeQuery.toLowerCase())
-      )
-    : FLIGHTS;
+
+  const filteredFlights =
+    activeQuery && !showAll
+      ? FLIGHTS.filter(
+          (flight) =>
+            flight.destination.toLowerCase().includes(activeQuery.toLowerCase()) ||
+            flight.country.toLowerCase().includes(activeQuery.toLowerCase())
+        )
+      : FLIGHTS;
+
+  const handleBookNow = (e, flight) => {
+    e.stopPropagation(); // don't collapse the card
+    setAuthFlight(flight);
+  };
+
+  const handleAuthSuccess = (user) => {
+    login(user);
+    setAuthFlight(null);
+    navigate("/payment", {
+      state: {
+        flight: authFlight,
+        travellers: filters.travellers,
+        user,
+        departure: filters.departure,
+        returnDate: filters.tripType === "round-trip" ? filters.returnDate : null,
+        tripType: filters.tripType,
+      },
+    });
+  };
 
   return (
     <div className="flights-page">
@@ -241,7 +416,7 @@ function Flights() {
         {/* Flight List */}
         <main className="flights-main">
           <h2 className="section-title">Available Flights</h2>
-          {activeQuery &&! showAll && (
+          {activeQuery && !showAll && (
             <p className="list-sub">
               Showing results for: <strong>{activeQuery}</strong>
             </p>
@@ -255,24 +430,25 @@ function Flights() {
               <p>{selectedPackage.price}</p>
             </div>
           )}
+
           <p className="list-sub">
             {filteredFlights.length} flights found · Prices per person, taxes included
           </p>
+
           {filteredFlights.length === 0 && activeQuery && !showAll && (
-  <div className="no-results">
-    <p>No flights found for "{query}"</p>
-    <button
-      className="show-all-btn"
-      onClick={() => { 
-        setShowAll(true);
-        setActiveQuery("");
-      }
-    }
-    >
-      Show All Flights
-    </button>
-  </div>
-)}
+            <div className="no-results">
+              <p>No flights found for "{query}"</p>
+              <button
+                className="show-all-btn"
+                onClick={() => {
+                  setShowAll(true);
+                  setActiveQuery("");
+                }}
+              >
+                Show All Flights
+              </button>
+            </div>
+          )}
 
           <div className="flight-list">
             {filteredFlights.map((flight) => {
@@ -366,10 +542,18 @@ function Flights() {
 
                       <div className="expanded-footer">
                         <div className="expanded-total">
-                          <span>Total for {filters.travellers} {filters.travellers === 1 ? "passenger" : "passengers"}</span>
-                          <strong>${(flight.price * filters.travellers).toLocaleString()}</strong>
+                          <span>
+                            Total for {filters.travellers}{" "}
+                            {filters.travellers === 1 ? "passenger" : "passengers"}
+                          </span>
+                          <strong>
+                            ${(flight.price * filters.travellers).toLocaleString()}
+                          </strong>
                         </div>
-                        <button className="book-btn">
+                        <button
+                          className="book-btn"
+                          onClick={(e) => handleBookNow(e, flight)}
+                        >
                           Book Now →
                         </button>
                       </div>
@@ -383,6 +567,16 @@ function Flights() {
       </div>
 
       <Footer />
+
+      {/* Auth modal — shown when Book Now is clicked */}
+      {authFlight && (
+        <AuthModal
+          flight={authFlight}
+          travellers={filters.travellers}
+          onClose={() => setAuthFlight(null)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
     </div>
   );
 }

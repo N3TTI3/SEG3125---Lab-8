@@ -1,0 +1,329 @@
+.payment-page {
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Two-column layout ── */
+.payment-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  align-items: start;
+  flex: 1;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* ── Main form area ── */
+.payment-main {
+  padding: 55px 64px;
+  border-right: 1px solid #d9d9d9;
+}
+
+.payment-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 6px;
+}
+
+.payment-sub {
+  font-size: 14px;
+  color: #888888;
+  margin-bottom: 36px;
+}
+
+/* Fieldsets */
+.payment-fieldset {
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 24px 24px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.fieldset-legend {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #aaaaaa;
+  padding: 0 6px;
+}
+
+/* Individual fields */
+.payment-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.payment-field.full  { width: 100%; }
+.payment-field.half  { width: calc(50% - 8px); }
+
+.payment-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.payment-field input {
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 14px;
+  color: #111111;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  background: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.payment-field input::placeholder {
+  color: #cccccc;
+}
+
+.payment-field input:focus {
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.07);
+}
+
+/* Card number wrapper */
+.card-number-wrapper {
+  position: relative;
+}
+
+.card-number-wrapper input {
+  padding-right: 42px;
+  letter-spacing: 0.08em;
+  font-size: 15px;
+}
+
+.card-icons {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* Field errors */
+.field-error {
+  font-size: 12px;
+  color: #cc3333;
+}
+
+/* Security note */
+.payment-security-note {
+  font-size: 12px;
+  color: #aaaaaa;
+  margin-bottom: 24px;
+}
+
+/* Pay button */
+.pay-btn {
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 36px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, opacity 0.18s;
+  width: 100%;
+}
+
+.pay-btn:hover:not(:disabled) {
+  background: #333333;
+}
+
+.pay-btn:disabled,
+.pay-btn.loading {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Sidebar: order summary ── */
+.payment-sidebar {
+  padding: 55px 36px;
+  position: sticky;
+  top: 0;
+}
+
+.summary-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 20px;
+}
+
+/* Flight card in summary */
+.summary-flight-card {
+  background: #f7f7f7;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.summary-flag-dest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.summary-flag {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.summary-city {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.summary-country {
+  font-size: 12px;
+  color: #888888;
+}
+
+.summary-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 6px;
+}
+
+.summary-dash {
+  color: #aaaaaa;
+  font-weight: 400;
+}
+
+.summary-meta {
+  font-size: 12px;
+  color: #888888;
+  margin-bottom: 3px;
+}
+
+/* Line items */
+.summary-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555555;
+}
+
+.summary-line strong {
+  color: #111111;
+  font-weight: 600;
+}
+
+/* Total row */
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 16px;
+  border-top: 2px solid #111111;
+  margin-bottom: 12px;
+}
+
+.summary-total-row span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.summary-total-row strong {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.summary-cancel {
+  font-size: 12px;
+  color: #888888;
+}
+
+/* ── Empty / confirmed states ── */
+.payment-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px;
+  color: #888888;
+}
+
+.payment-confirmed {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 40px;
+  gap: 12px;
+}
+
+.confirmed-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #111111;
+  color: #ffffff;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.confirmed-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.confirmed-sub {
+  font-size: 16px;
+  color: #555555;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.confirmed-detail {
+  font-size: 14px;
+  color: #888888;
+  max-width: 380px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.payment-confirmed .pay-btn {
+  width: auto;
+  padding: 13px 40px;
+}
