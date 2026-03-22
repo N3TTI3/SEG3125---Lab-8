@@ -6,7 +6,7 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-logo">
-        <img src={logo} alt="ExploreTrip Logo" />
+        <Link to="/home"> <img src={logo} alt="ExploreTrip Logo" /> </Link>
         <span>ExploreTrip</span>
       </div>
 
