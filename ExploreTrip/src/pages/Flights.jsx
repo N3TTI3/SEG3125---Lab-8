@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import BackButton from "../components/BackButton";
 import "../styles/Flights.css";
 
 const FLIGHTS = [
@@ -140,6 +141,7 @@ function Flights() {
   return (
     <div className="flights-page">
       <Navbar />
+      <BackButton />
 
       <div className="flights-body">
         {/* Sidebar */}

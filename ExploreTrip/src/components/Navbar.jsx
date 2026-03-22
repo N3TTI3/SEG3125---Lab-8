@@ -14,16 +14,7 @@ function Navbar() {
       <nav className="navbar-links">
         <Link to="/">Home</Link>
         <Link to="/flights">Flights</Link>
-         <button onClick={() => navigate("/flights")} className="nav-link-btn">
-          Hotels
-        </button>
-         <button onClick={() => navigate("/flights")} className="nav-link-btn">
-          Destinations
-        </button>
-
-        <button onClick={() => navigate("/flights")} className="nav-link-btn">
-          Contact
-        </button>
+        <Link to="/contact">Contact</Link>
       </nav>
 
       <button

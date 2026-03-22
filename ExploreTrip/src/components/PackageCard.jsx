@@ -1,16 +1,16 @@
 import "../styles/PackageCard.css";
 import { useNavigate } from "react-router-dom";
 
-function PackageCard({ title, description, price, image }) {
+function PackageCard({ title, description, price, image, destination  }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/flights", { state: { package: {
-      id,
+    navigate("/package-details", { state: { package: {
       title,
       description,
       price,
       image,
+      destination,
     }, 
   },
  });
@@ -27,7 +27,7 @@ function PackageCard({ title, description, price, image }) {
         <p>{description}</p>
 
         <div className="package-bottom">
-          <span className="package-price">${price.toLocaleString()}</span>
+          <span className="package-price">{price}</span>
           <button className="details-button"
           onClick={handleClick}
           >
