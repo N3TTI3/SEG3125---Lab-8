@@ -3,7 +3,7 @@ import Hero from "../components/Hero";
 import DestinationCard from "../components/DestinationCard";
 import PackageCard from "../components/PackageCard";
 import Footer from "../components/Footer";
-import { destinations, packages } from "../data/homeData";
+import { destinations, packages } from "../data/HomeData";
 import "../styles/Home.css";
 
 function Home() {
@@ -33,11 +33,11 @@ function Home() {
           {packages.map((item) => (
             <PackageCard
               key={item.id}
-              id ={item.id}
               title={item.title}
               description={item.description}
               price={item.price}
               image={item.image}
+              destination={item.destination}
             />
           ))}
         </div>

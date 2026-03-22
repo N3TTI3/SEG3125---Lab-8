@@ -11,7 +11,6 @@ function Footer() {
           <h3>Quick Links</h3>
           <Link to="/">Home</Link>
           <Link to="/flights">Flights</Link>
-          <Link to="/destinations">Destinations</Link>
           <Link to="/contact">Contact</Link>
         </div>
 
