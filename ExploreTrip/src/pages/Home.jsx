@@ -18,6 +18,7 @@ function Home() {
           {destinations.map((destination) => (
             <DestinationCard
               key={destination.id}
+              id={destination.id}
               city={destination.city}
               country={destination.country}
                 image={destination.image}
@@ -32,6 +33,7 @@ function Home() {
           {packages.map((item) => (
             <PackageCard
               key={item.id}
+              id ={item.id}
               title={item.title}
               description={item.description}
               price={item.price}

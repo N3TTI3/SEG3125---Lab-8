@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../styles/Flights.css";
 
 const FLIGHTS = [
@@ -107,6 +108,12 @@ const FLIGHTS = [
 ];
 
 function Flights() {
+  const location = useLocation();
+  const query = location.state?.query || "your destination";
+  const [activeQuery, setActiveQuery] = useState(query);
+  const selectedPackage = location.state?.package || null;
+  const [showAll, setShowAll] = useState(false);
+
   const today = new Date().toISOString().split("T")[0];
 
   const [filters, setFilters] = useState({
@@ -122,6 +129,13 @@ function Flights() {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
+  const filteredFlights = activeQuery && !showAll
+    ? FLIGHTS.filter(
+        (flight) =>
+          flight.destination.toLowerCase().includes(activeQuery.toLowerCase()) ||
+          flight.country.toLowerCase().includes(activeQuery.toLowerCase())
+      )
+    : FLIGHTS;
 
   return (
     <div className="flights-page">
@@ -225,12 +239,41 @@ function Flights() {
         {/* Flight List */}
         <main className="flights-main">
           <h2 className="section-title">Available Flights</h2>
+          {activeQuery &&! showAll && (
+            <p className="list-sub">
+              Showing results for: <strong>{activeQuery}</strong>
+            </p>
+          )}
+
+          {selectedPackage && (
+            <div className="selected-package-box">
+              <h3>Selected Package</h3>
+              <p><strong>{selectedPackage.title}</strong></p>
+              <p>{selectedPackage.description}</p>
+              <p>{selectedPackage.price}</p>
+            </div>
+          )}
           <p className="list-sub">
-            {FLIGHTS.length} flights found · Prices per person, taxes included
+            {filteredFlights.length} flights found · Prices per person, taxes included
           </p>
+          {filteredFlights.length === 0 && activeQuery && !showAll && (
+  <div className="no-results">
+    <p>No flights found for "{query}"</p>
+    <button
+      className="show-all-btn"
+      onClick={() => { 
+        setShowAll(true);
+        setActiveQuery("");
+      }
+    }
+    >
+      Show All Flights
+    </button>
+  </div>
+)}
 
           <div className="flight-list">
-            {FLIGHTS.map((flight) => {
+            {filteredFlights.map((flight) => {
               const isSelected = selectedFlight === flight.id;
               return (
                 <div

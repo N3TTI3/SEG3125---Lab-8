@@ -419,3 +419,33 @@
 .book-btn:hover {
   background: #333333;
 }
+
+.selected-package-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+.no-results {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.show-all-btn {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: none;
+  background: #1e2a3a;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.show-all-btn:hover {
+  background: #2f3f55;
+}

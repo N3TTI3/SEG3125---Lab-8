@@ -1,9 +1,18 @@
 import "../styles/DestinationCard.css";
+import { useNavigate } from "react-router-dom";
 
 function DestinationCard({ city, country, image }) {
-    console.log(city, image);
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/flights", { state: { query: city } });
+    }; 
+   
   return (
-    <div className="destination-card">
+    <div className="destination-card"
+      onClick={handleClick}
+      style = {{ cursor: "pointer" }}
+      >
+
       <div className="destination-image">
         <img src={image} alt={city} />
       </div>

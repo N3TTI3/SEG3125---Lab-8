@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import "../styles/Navbar.css";
 import logo from "../assets/logo.jpg";
 
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <header className="navbar">
       <div className="navbar-logo">
@@ -13,12 +14,25 @@ function Navbar() {
       <nav className="navbar-links">
         <Link to="/">Home</Link>
         <Link to="/flights">Flights</Link>
-        <a href="#">Hotels</a>
-        <a href="#">Destinations</a>
-        <a href="#">Contact</a>
+         <button onClick={() => navigate("/flights")} className="nav-link-btn">
+          Hotels
+        </button>
+         <button onClick={() => navigate("/flights")} className="nav-link-btn">
+          Destinations
+        </button>
+
+        <button onClick={() => navigate("/flights")} className="nav-link-btn">
+          Contact
+        </button>
       </nav>
 
-      <button className="navbar-button">Login / Sign Up</button>
+      <button
+        className="navbar-button"
+        onClick={() => navigate("/flights")}
+      >
+        Login / Sign Up
+      </button>
+
     </header>
   );
 }

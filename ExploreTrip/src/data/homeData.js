@@ -31,22 +31,25 @@ export const packages = [
   {
     id: 1,
     title: "7-Day Paris Adventure",
+    destinations:"Paris",
     description: "Experience the city of lights",
-    price: "$1,499",
+    price: 1350,
     image: parisPack,
   },
   {
     id: 2,
     title: "Tokyo Explorer",
+    destinations:"Tokyo",
     description: "Discover ancient and modern Japan",
-    price: "$2,199",
+    price: 2350,
     image: tokyoPack,
   },
   {
     id: 3,
     title: "New York City Break",
+    destinations:"New York",
     description: "The city that never sleeps",
-    price: "$899",
+    price: 300,
     image: newyorkPack,    
   },
 ];
