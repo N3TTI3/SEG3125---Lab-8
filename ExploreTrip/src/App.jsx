@@ -5,6 +5,7 @@ import Contact from "./pages/Contact";
 import PackageDetails from "./pages/PackageDetails";
 import Payment from "./pages/Payment";
 import { useEffect } from "react";
+import "./styles/App.css";
 
 function App() {useEffect(() => {
   window.googleTranslateElementInit = () => {

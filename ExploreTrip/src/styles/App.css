@@ -1,0 +1,8 @@
+/* Hide Google Translate banner iframe */
+.goog-te-banner-frame { display: none !important; }
+
+/* Fix the body shift Google forces */
+body { top: 0 !important; position: static !important; }
+
+/* Hide the skip-to-content link Google injects */
+.skiptranslate { display: none !important; }
