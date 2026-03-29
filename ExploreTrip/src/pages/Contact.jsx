@@ -22,7 +22,7 @@ function Contact() {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (
@@ -34,6 +34,21 @@ function Contact() {
       alert("Please fill in all fields.");
       return;
     }
+    try {
+    const response = await fetch("http://localhost:5001/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Something went wrong.");
+      return;
+    }
+
 
     setSubmitted(true);
 
@@ -43,8 +58,11 @@ function Contact() {
       subject: "",
       message: "",
     });
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Server error, Failed to send message. Please try again later.");
   }
-
+  }
   return (
     <div>
       <Navbar />
