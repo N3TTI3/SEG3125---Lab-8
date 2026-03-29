@@ -21,7 +21,7 @@ function Navbar() {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-const [selectedLang, setSelectedLang] = useState(getSavedLang());
+  const [selectedLang, setSelectedLang] = useState(getSavedLang());
   const dropdownRef = useRef(null);
   const langRef = useRef(null);
 
@@ -51,10 +51,9 @@ const [selectedLang, setSelectedLang] = useState(getSavedLang());
       document.cookie = `googtrans=/en/${code}; path=/; domain=${window.location.hostname}`;
     }
 
-    // Navigate to home first so the translate widget re-initializes cleanly
-    window.location.href = "/";
+    // Small delay lets the browser commit cookie writes before reloading
+    setTimeout(() => window.location.reload(), 50);
   };
-
   const handleLogout = () => {
     logout();
     setDropdownOpen(false);
