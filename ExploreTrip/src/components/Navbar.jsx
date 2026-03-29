@@ -21,7 +21,7 @@ function Navbar() {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-const [selectedLang, setSelectedLang] = useState(getSavedLang);
+const [selectedLang, setSelectedLang] = useState(getSavedLang());
   const dropdownRef = useRef(null);
   const langRef = useRef(null);
 
@@ -63,35 +63,66 @@ const [selectedLang, setSelectedLang] = useState(getSavedLang);
   };
 
   return (
-    <header className="navbar">
-      <div className="navbar-logo">
-        <Link to="/"><img src={logo} alt="ExploreTrip Logo" /></Link>
+    <header>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+      <div className="container">
+        {/* Logo */}
+        <Link to="/"
+        className="navbar-brand d-flex align-items-center gap-2 fw-bold">
+        <img src={logo} alt="ExploreTrip Logo" style = {{
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }} />
         <span>ExploreTrip</span>
-      </div>
-
-      <nav className="navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/flights">Flights</Link>
-        <Link to="/contact">Contact</Link>
-      </nav>
-
-      <div className="navbar-right">
-        {/* Custom Language Dropdown */}
-        <div className="lang-selector" ref={langRef}>
+      </Link>
+      {/* Mobile toggle */}
           <button
-            className="lang-btn"
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          {/* Links and right side */}
+          <div className="collapse navbar-collapse" id="mainNavbar">
+            <div className="navbar-nav mx-auto">
+              <Link to="/" className="nav-link px-3">
+                Home
+              </Link>
+              <Link to="/flights" className="nav-link px-3">
+                Flights
+              </Link>
+              <Link to="/contact" className="nav-link px-3">
+                Contact
+              </Link>
+            </div>
+      
+        {/* Custom Language Dropdown */}
+        <div className="position-relative" ref={langRef}>
+          <button
+            type = "button"
+            className="btn btn-outline-light btn-sm d-flex align-items-center gap-2"
             onClick={() => setLangOpen((prev) => !prev)}
           >
-            🌐 {LANGUAGES.find((l) => l.code === selectedLang)?.label}
-            <span className="navbar-user-caret">{langOpen ? "▲" : "▼"}</span>
+            <span>🌐</span>
+            <span>{LANGUAGES.find((l) => l.code === selectedLang)?.label}</span>
+            <span>{langOpen ? "▲" : "▼"}</span>
           </button>
 
           {langOpen && (
-            <div className="lang-dropdown">
+            <div className="position-absolute end-0 mt-2 bg-white border rounded shadow p-2"
+              style={{ zIndex: 1050, minWidth: "180px" }}>
               {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
-                  className={`lang-dropdown-item ${selectedLang === lang.code ? "active" : ""}`}
+                  type="button"
+                  className={`dropdown-item rounded ${selectedLang === lang.code ? "active" : ""}`}
                   onClick={() => handleLanguageSelect(lang.code)}
                 >
                   {lang.label}
@@ -105,35 +136,46 @@ const [selectedLang, setSelectedLang] = useState(getSavedLang);
         <div id="google_translate_element" style={{ display: "none" }}></div>
 
         {user ? (
-          <div className="navbar-user" ref={dropdownRef}>
+          <div className="position-relative" ref={dropdownRef}>
             <button
-              className="navbar-user-btn"
+            type="button"
+              className="btn btn-light btn-sm d-flex align-items-center gap-2"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
-              <span className="navbar-user-avatar">
+              <span className="d-inline-flex align-items-center justify-content-center rounded-circle bg-dark text-white"
+              style={{ width: "32px", height: "32px", fontSize: "0.9rem" }}>
                 {user.name.charAt(0).toUpperCase()}
               </span>
-              <span className="navbar-user-name">{user.name}</span>
-              <span className="navbar-user-caret">{dropdownOpen ? "▲" : "▼"}</span>
+              <span>{user.name}</span>
+              <span>{dropdownOpen ? "▲" : "▼"}</span>
             </button>
 
             {dropdownOpen && (
-              <div className="navbar-dropdown">
-                <div className="navbar-dropdown-email">{user.email}</div>
-                <hr className="navbar-dropdown-divider" />
-                <button className="navbar-dropdown-item" onClick={handleLogout}>
+              <div className="position-absolute end-0 mt-2 bg-white border rounded shadow p-2"
+                style={{ zIndex: 1050, minWidth: "220px" }}>
+
+                <div className="px-3 py-2 text-muted small">{user.email}</div>
+                <hr className="dropdown-divider" />
+                <button type="button"
+                      className="dropdown-item text-danger rounded" 
+                      onClick={handleLogout}>
                   Sign out
                 </button>
               </div>
             )}
           </div>
         ) : (
-          <button className="navbar-button" onClick={() => navigate("/flights")}>
+          <button 
+          type="button"
+          className="btn btn-primary" 
+          onClick={() => navigate("/flights")}>
             Login / Sign Up
           </button>
         )}
       </div>
-    </header>
+    </div>
+</nav>
+</header>
   );
 }
 

@@ -12,10 +12,13 @@ function Home() {
       <Navbar />
       <Hero />
 
-      <section className="home-section">
-        <h2 className="section-title">Popular Destinations</h2>
-        <div className="card-grid">
+       {/* Popular Destinations */}
+      <section className="container my-5">
+        <h2 className="text-center mb-4">Popular Destinations</h2>
+
+        <div className="row g-4">
           {destinations.map((destination) => (
+            <div className="col-md-6 col-lg-4" key={destination.id}>
             <DestinationCard
               key={destination.id}
               id={destination.id}
@@ -23,14 +26,17 @@ function Home() {
               country={destination.country}
                 image={destination.image}
             />
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="home-section">
-        <h2 className="section-title">Featured Travel Packages</h2>
-        <div className="card-grid">
+      {/* Travel Packages */}
+      <section className="container my-5">
+        <h2 className="text-center mb-4">Featured Travel Packages</h2>
+        <div className="row g-4">
           {packages.map((item) => (
+            <div className="col-md-6 col-lg-4" key={item.id}>
             <PackageCard
               key={item.id}
               title={item.title}
@@ -39,6 +45,7 @@ function Home() {
               image={item.image}
               destination={item.destination}
             />
+            </div>
           ))}
         </div>
       </section>

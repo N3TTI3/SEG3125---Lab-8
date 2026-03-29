@@ -1,4 +1,4 @@
-import "../styles/PackageCard.css";
+
 import { useNavigate } from "react-router-dom";
 
 function PackageCard({ title, description, price, image, destination  }) {
@@ -17,18 +17,20 @@ function PackageCard({ title, description, price, image, destination  }) {
   };
 
   return (
-    <div className="package-card">
-      <div className="package-image">
-        <img src={image} alt={title} />
-      </div>
+    <div className="card shadow-sm h-100 border-0">
+        <img 
+        src={image} 
+        alt={title} 
+        className="card-img-top"
+       style={{ height: "220px", objectFit: "cover" }}
+      />
+      <div className="card-body d-flex flex-column">
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text text-muted flex-grow-1">{description}</p>
 
-      <div className="package-info">
-        <h3>{title}</h3>
-        <p>{description}</p>
-
-        <div className="package-bottom">
-          <span className="package-price">{price}</span>
-          <button className="details-button"
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <span className="fw-bold text-primary">{price}</span>
+          <button className="btn btn-primary"
           onClick={handleClick}
           >
             View Details

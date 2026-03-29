@@ -1,47 +1,56 @@
 import { Link } from "react-router-dom";
-import "../styles/Footer.css";
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-top">
+    <footer className="bg-dark text-white mt-5">
+      <div className="container py-5">
+        <div className="row g-4">
 
         {/* Quick Links */}
-        <div className="footer-column">
-          <h3>Quick Links</h3>
-          <Link to="/">Home</Link>
-          <Link to="/flights">Flights</Link>
-          <Link to="/contact">Contact</Link>
+        <div className="col-6 col-md-3">
+          <h5 className="mb-3">Quick Links</h5>
+          <ul className="list-unstyled">
+            <li><Link to="/" className="text-white text-decoration-none">Home</Link></li>
+            <li><Link to="/flights" className="text-white text-decoration-none">Flights</Link></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Contact</Link></li>
+          </ul>
         </div>
 
         {/* Help */}
-        <div className="footer-column">
-          <h3>Help</h3>
-          <Link to="/contact">FAQs</Link>
-          <Link to="/contact">Support</Link>
-          <Link to="/contact">Cancellations</Link>
+        <div className="col-6 col-md-3">
+          <h5 className="mb-3">Help</h5>
+           <ul className="list-unstyled">
+            <li><Link to="/contact" className="text-white text-decoration-none">FAQs</Link></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Support</Link></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Cancellations</Link></li>
+          </ul>
         </div>
 
         {/* Contact */}
-        <div className="footer-column">
-          <h3>Contact</h3>
-          <a href="mailto:support@exploretrip.com">Email Us</a>
-          <a href="tel:+16131234567">Call Center</a>
-          <Link to="/contact">Live Chat</Link>
+        <div className="col-6 col-md-3">
+          <h5 className="mb-3">Contact</h5>
+          <ul className="list-unstyled">
+            <li><a href="mailto:support@exploretrip.com" className="text-white text-decoration-none">Email Us</a></li>
+            <li><a href="tel:+16131234567" className="text-white text-decoration-none">Call Center</a></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Live Chat</Link></li>
+          </ul>
         </div>
 
         {/* About */}
-        <div className="footer-column">
-          <h3>About</h3>
-          <Link to="/">Company</Link>
-          <Link to="/contact">Terms</Link>
-          <Link to="/contact">Privacy</Link>
+        <div className="col-6 col-md-3">
+          <h5 className="mb-3">About</h5>
+          <ul className="list-unstyled">
+            <li><Link to="/" className="text-white text-decoration-none">Company</Link></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Terms</Link></li>
+            <li><Link to="/contact" className="text-white text-decoration-none">Privacy</Link></li>
+          </ul>
         </div>
 
       </div>
+      </div>
 
-      <div className="footer-bottom">
-        <p>© 2026 ExploreTrip. All rights reserved.</p>
+      <div className="text-center py-3 border-top border-secondary">
+        <p className="mb-0">© 2026 ExploreTrip. All rights reserved.</p>
       </div>
     </footer>
   );
