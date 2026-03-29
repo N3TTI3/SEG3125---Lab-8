@@ -5,7 +5,7 @@ import parisPack from "../assets/paris-pack.jpg";
 import tokyoPack from "../assets/tokyo-pack.jpg";
 import newyorkPack from "../assets/newyork-pack.jpg";
 
-
+//
 export const destinations = [
   {
     id: 1,
