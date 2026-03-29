@@ -43,17 +43,16 @@ const [selectedLang, setSelectedLang] = useState(getSavedLang());
     setSelectedLang(code);
     setLangOpen(false);
 
-    // Clear existing translation cookies first
     document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
 
     if (code !== "en") {
-      // Set the translation cookie Google Translate reads on load
       document.cookie = `googtrans=/en/${code}; path=/;`;
       document.cookie = `googtrans=/en/${code}; path=/; domain=${window.location.hostname}`;
     }
 
-  window.location.reload();
+    // Navigate to home first so the translate widget re-initializes cleanly
+    window.location.href = "/";
   };
 
   const handleLogout = () => {
